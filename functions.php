@@ -149,23 +149,27 @@ function encode_string($string, $timestamp){
 }
 
 /**
- * Add script to every product page
+ * Add script and push product page productID
  */
 function add_product_script() {
-
     global $post;
     $post_type = get_post_type( $post );
 
     if($post_type == 'product'){
         if(!is_shop()){
-            wp_register_script('in-store-email-builder',  plugins_url().'/'.plugin_basename(__DIR__).'/in-store-email-builder.js');
-            wp_enqueue_script('in-store-email-builder');
             $product_params = json_encode(array('productID' => $post->ID));
-            wp_localize_script('in-store-email-builder', 'product_params', $product_params);
+        } else {
+            $product_params = json_encode(array('productID' => ""));
         }
+    } else {
+        $product_params = json_encode(array('productID' => ""));
     }
+    
+    wp_register_script('in-store-email-builder',  plugins_url().'/'.plugin_basename(__DIR__).'/in-store-email-builder.js');
+    wp_enqueue_script('in-store-email-builder');
+    wp_localize_script('in-store-email-builder', 'product_params', $product_params);
 }
-add_action( 'wp_enqueue_scripts', 'add_product_script' );
+add_action('wp_footer', 'add_product_script' );
 
 /**
  * Register custom endpoint

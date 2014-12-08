@@ -9,7 +9,7 @@
     Author URI: http://www.soundest.com
 */
 
-define('SWP_VERSION', '1.2');
+define('SWP_VERSION', '1.3');
 define('PARTNER_ID', '53cf5accb64ceef36168080b');
 
 require_once ('functions.php');
